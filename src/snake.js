@@ -12,6 +12,7 @@ function Snake() {
     this.y = 0;
     this.length = 3;
     this.segments = [];
+    this.skin = 'gradient';
 
     this.xSpeed = speed;
     this.ySpeed = 0;
@@ -26,15 +27,36 @@ function Snake() {
         food.draw();
 
         used = {};
-        var current;
+        var current, color;
 
         for(var i = 1; i < this.segments.length; i++){
             current = this.segments[i-1] = this.segments[i];
             if(used[current.x] == undefined){
                 used[current.x] = {};
             }
+
             used[current.x][current.y] = 1;
-            current.draw(false, i+this.length+1);
+
+            switch(this.skin){
+                case('ripple'):
+                    color = (i % 2 == 0 ? '#44D7A8' : '#FFFF38');
+                    break;
+                case('gradient'):
+                    var startColor = [255,0,0],
+                        endColor = [255,255,0];
+
+                    startColor.forEach((item, index, array) => {
+                        array[index] += Math.floor(((endColor[index] - item) / this.segments.length-1) * i);
+                    });
+
+                    color = `rgba(${startColor[0]}, ${startColor[1]}, ${startColor[2]}, 1)`;
+                    break;
+                default:
+                    color = '#FFFF38';
+                    break;
+            }
+
+            current.draw(color);
         }
         this.x += this.xSpeed;
         this.y += this.ySpeed
@@ -56,7 +78,7 @@ function Snake() {
         this.y = (this.y + 1 > rows) ? 0 : (this.y < 0 ? rows : this.y);
 
         this.segments[this.length] = new Segment(this.x, this.y);
-        this.segments[this.length].draw(true, 0);
+        this.segments[this.length].draw('dodgerblue');
 
         call = setTimeout(function () {
             snake.update();
@@ -91,11 +113,14 @@ function Snake() {
 function Segment(x, y) {
     this.x = x;
     this.y = y;
-    this.draw = function(isHead, index){
+    this.draw = function(color){
+        if(!color) color = '#44D7A8';
+
         var segment = canvas.getContext('2d');
         segment.beginPath();
         segment.rect(this.x, this.y, 15, 15);
-        segment.fillStyle = (isHead ? 'dodgerblue' : (index % 2 == 0 ? '#44D7A8' : '#FFFF38'))
+
+        segment.fillStyle = color;
         segment.fill();
     }
 }
