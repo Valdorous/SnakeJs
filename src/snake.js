@@ -2,7 +2,7 @@
  * Created by Anees S on 3/25/2017.
  */
 var speed = 15;
-var timerSpeed = 150;
+var timerSpeed = 80;
 
 var used = {};
 var call = false;
@@ -103,15 +103,7 @@ function Segment(x, y) {
         var segment = canvas.getContext('2d');
         segment.beginPath();
         segment.rect(this.x, this.y, 15, 15);
-        if(isHead){
-            segment.fillStyle = 'mediumspringgreen';
-        }else{
-            if(isLit){
-                segment.fillStyle = this.color == 'white' ? 'black' : (this.color == '#fff' ? '#111' : this.color);
-            }else{
-                segment.fillStyle = this.color;
-            }
-        }
+        segment.fillStyle = (isHead ? 'mediumspringgreen' : (isRainbow ? ('#'+(Math.random()*0xFFFFFF<<0).toString(16)) : (isLit ? (this.color == 'white' ? 'black' : (this.color == '#fff' ? '#111' : this.color)) : this.color)))
         segment.fill();
     }
 }

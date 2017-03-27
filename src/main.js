@@ -12,6 +12,8 @@ var is1337 = false;
 
 var isLit = false;
 
+var isRainbow = true;
+
 function main() {
     drawCanvas();
 
