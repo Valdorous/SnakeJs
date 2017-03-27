@@ -95,7 +95,7 @@ function Segment(x, y) {
         var segment = canvas.getContext('2d');
         segment.beginPath();
         segment.rect(this.x, this.y, 15, 15);
-        segment.fillStyle = (isHead ? 'dodgerblue' : (index % 2 == 0 ? '#44D7A8' : '#FFFF38'))
+        segment.fillStyle = (isHead ? '#00FF00' : (index % 2 == 0 ? '#FF00CC' : '#fff'))
         segment.fill();
     }
 }
