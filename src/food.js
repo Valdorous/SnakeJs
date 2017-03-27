@@ -19,7 +19,7 @@ function Food(){
         var food = canvas.getContext('2d');
         food.beginPath();
         food.rect(this.x, this.y, 15, 15);
-        food.fillStyle = isLit ? 'dodgerblue' : 'deeppink';
+        food.fillStyle = '#FF00CC';
         food.fill();
     }
 }

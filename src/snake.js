@@ -10,13 +10,15 @@ var call = false;
 function Snake() {
     this.x = 0 - speed;
     this.y = 0;
-    this.length = 0;
+    this.length = 3;
     this.segments = [];
-
-    this.turnsSinceEaten = 1;
 
     this.xSpeed = speed;
     this.ySpeed = 0;
+
+    this.segments[1] = new Segment(-speed, this.y)
+    this.segments[2] = new Segment(-speed*2, this.y)
+    this.segments[3] = new Segment(-speed*3, this.y)
 
     this.update = function(){
         canvas.remove();
@@ -28,30 +30,24 @@ function Snake() {
 
         for(var i = 1; i < this.segments.length; i++){
             current = this.segments[i-1] = this.segments[i];
-            if(this.turnsSinceEaten === i){
-                current.color = 'darkorange';
-            }else{
-                current.color = '#fff'
-            }
             if(used[current.x] == undefined){
                 used[current.x] = {};
             }
             used[current.x][current.y] = 1;
-            current.draw(false);
+            current.draw(false, i+this.length+1);
         }
         this.x += this.xSpeed;
         this.y += this.ySpeed
 
 
         if(used[this.x] != undefined && used[this.x][this.y] == 1){
-            alert('DEAD!!! - Score: ' + this.length);
+            alert('DEAD!!! - Score: ' + (this.length * 1337));
             snake = new Snake();
             snake.update();
             return;
         }
         else if(this.x == food.x && this.y == food.y){
             food.randomize();
-            this.turnsSinceEaten = this.length+2;
             this.length++;
         }
 
@@ -60,9 +56,7 @@ function Snake() {
         this.y = (this.y + 1 > rows) ? 0 : (this.y < 0 ? rows : this.y);
 
         this.segments[this.length] = new Segment(this.x, this.y);
-        this.segments[this.length].draw(true);
-
-        this.turnsSinceEaten--;
+        this.segments[this.length].draw(true, 0);
 
         call = setTimeout(function () {
             snake.update();
@@ -97,13 +91,11 @@ function Snake() {
 function Segment(x, y) {
     this.x = x;
     this.y = y;
-    this.color = '#fff'
-
-    this.draw = function(isHead){
+    this.draw = function(isHead, index){
         var segment = canvas.getContext('2d');
         segment.beginPath();
         segment.rect(this.x, this.y, 15, 15);
-        segment.fillStyle = (isHead ? 'mediumspringgreen' : (isRainbow ? ('#'+(Math.random()*0xFFFFFF<<0).toString(16)) : (isLit ? (this.color == 'white' ? 'black' : (this.color == '#fff' ? '#111' : this.color)) : this.color)))
+        segment.fillStyle = (isHead ? 'dodgerblue' : (index % 2 == 0 ? '#44D7A8' : '#FFFF38'))
         segment.fill();
     }
 }
