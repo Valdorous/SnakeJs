@@ -119,12 +119,7 @@ function Segment(x, y) {
         var segment = canvas.getContext('2d');
         segment.beginPath();
         segment.rect(this.x, this.y, 15, 15);
-<<<<<<< HEAD
-
         segment.fillStyle = color;
-=======
-        segment.fillStyle = (isHead ? '#00FF00' : (index % 2 == 0 ? '#FF00CC' : '#fff'))
->>>>>>> 6c9d19788bc9c246b601e0882f54dd0ca859719c
         segment.fill();
     }
 }
