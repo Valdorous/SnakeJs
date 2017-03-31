@@ -33,24 +33,28 @@ window.onload = function () {
 document.onkeydown = checkKey;
 
 var key = 39;
-
+var opposite = 37;
 function checkKey(e) {
     e = e || window.event;
-    if(e.keyCode != key){
+    if(e.keyCode != key && e.keyCode != opposite){
         // Cancel call from snakeUpdate to add speed & reliability //
         clearTimeout(call);
         switch(e.keyCode){
             case(38):
                 snake.do('up');
+                opposite = 40;
                 break;
             case(40):
                 snake.do('down');
+                opposite = 38;
                 break;
             case(37):
                 snake.do('left');
+                opposite = 39;
                 break;
             case(39):
                 snake.do('right');
+                opposite = 37;
                 break;
         }
         key = e.keyCode;
